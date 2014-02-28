@@ -5,3 +5,4 @@ This is a simple shopping cart app built with Test-Driven Development being the 
 * CoffeeScript 
 * Jasmine 
 * Require
+* Testem
