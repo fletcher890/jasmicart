@@ -6,20 +6,39 @@ define [], ->
 			@distinctCount = 0
 			@totalCount = 0
 
-		add: (item) ->
+		add: (item, quantity = 1) ->
 
 			if @itemExistsInBasket item
 				currentItem = @getItemFromBasket item
-				currentItem.quantity++
+				currentItem.quantity += quantity
 
 			else
 				@items.push {
-					item: item,
-					quantity: 1
+					item
+					quantity
 				}
 
+			@updateCounts()
+
+		remove: (item, qty = 1) ->
+			return unless @itemExistsInBasket item
+
+			basketItem = @getItemFromBasket item
+			basketItem.quantity -= qty
+
+			if basketItem.quantity < 1
+				itemloc = @getItemIndex item
+				@items.splice(itemloc, 1)
+
+			@updateCounts()
+
+		updateCounts: ->
+			total = 0
+			for item in @items
+				total += item.quantity
+
 			@distinctCount = @items.length
-			@totalCount++
+			@totalCount = total
 
 		empty: ->
 			@items = []
@@ -37,3 +56,18 @@ define [], ->
 				return basketItem if basketItem.item.id is item.id
 
 			false
+
+		getQuantity: (item) ->
+			if @itemExistsInBasket item
+				# quantity
+				@getItemFromBasket(item).quantity
+			else
+				0
+
+		getItemIndex: (item) ->
+			count = 0
+			for basketItem in @items
+				return count if basketItem.item.id is item.id
+				count++
+			
+			-1

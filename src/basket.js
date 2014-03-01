@@ -9,19 +9,50 @@
         this.totalCount = 0;
       }
 
-      Basket.prototype.add = function(item) {
+      Basket.prototype.add = function(item, quantity) {
         var currentItem;
+        if (quantity == null) {
+          quantity = 1;
+        }
         if (this.itemExistsInBasket(item)) {
           currentItem = this.getItemFromBasket(item);
-          currentItem.quantity++;
+          currentItem.quantity += quantity;
         } else {
           this.items.push({
             item: item,
-            quantity: 1
+            quantity: quantity
           });
         }
+        return this.updateCounts();
+      };
+
+      Basket.prototype.remove = function(item, qty) {
+        var basketItem, itemloc;
+        if (qty == null) {
+          qty = 1;
+        }
+        if (!this.itemExistsInBasket(item)) {
+          return;
+        }
+        basketItem = this.getItemFromBasket(item);
+        basketItem.quantity -= qty;
+        if (basketItem.quantity < 1) {
+          itemloc = this.getItemIndex(item);
+          this.items.splice(itemloc, 1);
+        }
+        return this.updateCounts();
+      };
+
+      Basket.prototype.updateCounts = function() {
+        var item, total, _i, _len, _ref;
+        total = 0;
+        _ref = this.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          total += item.quantity;
+        }
         this.distinctCount = this.items.length;
-        return this.totalCount++;
+        return this.totalCount = total;
       };
 
       Basket.prototype.empty = function() {
@@ -53,6 +84,28 @@
           }
         }
         return false;
+      };
+
+      Basket.prototype.getQuantity = function(item) {
+        if (this.itemExistsInBasket(item)) {
+          return this.getItemFromBasket(item).quantity;
+        } else {
+          return 0;
+        }
+      };
+
+      Basket.prototype.getItemIndex = function(item) {
+        var basketItem, count, _i, _len, _ref;
+        count = 0;
+        _ref = this.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          basketItem = _ref[_i];
+          if (basketItem.item.id === item.id) {
+            return count;
+          }
+          count++;
+        }
+        return -1;
       };
 
       return Basket;

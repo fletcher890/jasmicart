@@ -11,7 +11,7 @@
     laptop = new Item(1, 'Laptop', 400);
     mouse = new Item(2, 'Mouse', 30);
     describe('Adding to basket', function() {
-      return it('should keep track of distinct items and quantities in basket', function() {
+      it('should keep track of distinct items and quantities in basket', function() {
         basket.add(laptop);
         expect(basket.totalCount).toEqual(1);
         expect(basket.distinctCount).toEqual(1);
@@ -21,6 +21,47 @@
         basket.add(mouse);
         expect(basket.totalCount).toEqual(3);
         return expect(basket.distinctCount).toEqual(2);
+      });
+      return it('should allow more than 1 item to be added', function() {
+        basket.empty();
+        basket.add(laptop, 2);
+        expect(basket.totalCount).toEqual(2);
+        expect(basket.distinctCount).toEqual(1);
+        return expect(basket.getQuantity(laptop)).toEqual(2);
+      });
+    });
+    describe('removing from basket', function() {
+      it('should deduct the quantity passed in', function() {
+        basket.empty();
+        basket.add(laptop);
+        basket.add(laptop);
+        basket.remove(laptop, 1);
+        expect(basket.getQuantity(laptop)).toEqual(1);
+        expect(basket.distinctCount).toEqual(1);
+        return expect(basket.totalCount).toEqual(1);
+      });
+      it('should remove item completely if removing the total quantity', function() {
+        basket.empty();
+        basket.add(laptop);
+        basket.add(laptop);
+        return basket.remove(laptop, 2);
+      });
+      it('should deal with multiple items correctly', function() {
+        basket.empty();
+        basket.add(laptop);
+        basket.add(laptop);
+        basket.add(mouse);
+        basket.remove(mouse);
+        expect(basket.itemExistsInBasket(mouse)).toBeFalsy();
+        return expect(basket.itemExistsInBasket(laptop)).toBeTruthy();
+      });
+      return it('should not break totalCount with invalid quantities', function() {
+        basket.empty();
+        basket.add(laptop);
+        basket.add(laptop);
+        basket.add(mouse);
+        basket.remove(laptop, 3);
+        return expect(basket.totalCount).toEqual(1);
       });
     });
     describe('emptying a basket', function() {
@@ -42,7 +83,7 @@
         return expect(basket.itemExistsInBasket(laptop)).toBeTruthy();
       });
     });
-    return describe('fetching item from basket', function() {
+    describe('fetching item from basket', function() {
       it('returns the item object if it exists', function() {
         var result;
         basket.empty();
@@ -54,6 +95,27 @@
       return it('returns false if the item is not in basket', function() {
         basket.empty();
         return expect(basket.getItemFromBasket(laptop)).toBeFalsy();
+      });
+    });
+    describe('getting quantity of an item in basket', function() {
+      it('returns the correct quantity', function() {
+        basket.add(laptop);
+        basket.add(laptop);
+        return expect(basket.getQuantity(laptop)).toEqual(2);
+      });
+      return it('returns 0 if the item is not in the basket', function() {
+        basket.empty();
+        return expect(basket.getQuantity(laptop)).toEqual(0);
+      });
+    });
+    return describe('getting index of an item', function() {
+      it('returns the index', function() {
+        basket.add(laptop);
+        return expect(basket.getItemIndex(laptop)).toEqual(0);
+      });
+      return it('returns -1 if item does not exist', function() {
+        basket.empty();
+        return expect(basket.getItemIndex(laptop)).toEqual(-1);
       });
     });
   });
