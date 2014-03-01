@@ -5,15 +5,24 @@ define ['src/basket', 'src/item'], (Basket, Item) ->
 		  expect(Basket).toBeDefined()
 		  expect(Item).toBeDefined()
 
-	  it 'should keep track of items in basket', ->
+	  it 'should keep track of distinct items and quantities in basket', ->
 	    
 	    basket = new Basket()
-	    item = new Item()
 
-	    basket.add item
+	    laptop = new Item(1, 'Laptop', 400)
+	    mouse = new Item(2, 'Mouse', 30)
 
-	    expect(basket.itemCount).toEqual 1
+	    basket.add laptop
 
-	    basket.add item
+	    expect(basket.totalCount).toEqual 1
+	    expect(basket.distinctCount).toEqual 1
 
-	    expect(basket.itemCount).toEqual 2
+	    basket.add laptop
+
+	    expect(basket.totalCount).toEqual 2
+	    expect(basket.distinctCount).toEqual 1
+
+	     basket.add mouse
+
+	     expect(basket.totalCount).toEqual 3
+	     expect(basket.distinctCount).toEqual 2

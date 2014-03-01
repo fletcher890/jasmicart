@@ -6,14 +6,17 @@
         expect(Basket).toBeDefined();
         return expect(Item).toBeDefined();
       });
-      return it('should keep track of items in basket', function() {
-        var basket, item;
+      return it('should keep track of distinct items and quantities in basket', function() {
+        var basket, laptop, mouse;
         basket = new Basket();
-        item = new Item();
-        basket.add(item);
-        expect(basket.itemCount).toEqual(1);
-        basket.add(item);
-        return expect(basket.itemCount).toEqual(2);
+        laptop = new Item(1, 'Laptop', 400);
+        mouse = new Item(2, 'Mouse', 30);
+        basket.add(laptop);
+        expect(basket.totalCount).toEqual(1);
+        expect(basket.distinctCount).toEqual(1);
+        basket.add(laptop);
+        expect(basket.totalCount).toEqual(2);
+        return expect(basket.distinctCount).toEqual(1);
       });
     });
   });

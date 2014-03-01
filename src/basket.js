@@ -7,11 +7,38 @@
 
       Basket.prototype.items = [];
 
-      Basket.prototype.itemCount = 0;
+      Basket.prototype.distinctCount = 0;
+
+      Basket.prototype.totalCount = 0;
 
       Basket.prototype.add = function(item) {
-        this.items.push(item);
-        return this.itemCount++;
+        var basketItem, currentItem, itemInBasket, _i, _j, _len, _len1, _ref, _ref1;
+        itemInBasket = false;
+        _ref = this.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          basketItem = _ref[_i];
+          if (basketItem.item.id === item.id) {
+            itemInBasket = true;
+          }
+        }
+        if (itemInBasket) {
+          currentItem = void 0;
+          _ref1 = this.items;
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            basketItem = _ref1[_j];
+            if (basketItem.item.id === item.id) {
+              currentItem = basketItem;
+            }
+          }
+          currentItem.quantity++;
+        } else {
+          this.items.push({
+            item: item,
+            quantity: 1
+          });
+        }
+        this.distinctCount = this.items.length;
+        return this.totalCount++;
       };
 
       return Basket;
