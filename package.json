@@ -1,0 +1,11 @@
+{
+	"name": "requirejs",
+	"jam": {
+		"packageDir": "libs",
+		"dependencies": {
+			"jquery": null,
+			"backbone": null,
+			"handlebars": null
+		}
+	}
+}

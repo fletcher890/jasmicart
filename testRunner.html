@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test'em</title>
+  <script src="/testem/jasmine.js"></script>
+  <script src="/testem.js"></script>
+  <script src="/testem/jasmine-html.js"></script>
+  <link rel="stylesheet" href="/testem/jasmine.css">
+  </head>
+<body>
+  <div id="jasmine_content"></div>
+
+  <script type="text/javascript" src="libs/require.js"></script>
+
+  <script type="text/javascript">
+
+    require(
+            [
+                "spec/basketSpec",
+                "spec/itemSpec",
+            ],
+            function( document ){
+ 
+                // Set up the HTML reporter - this is reponsible for
+                // aggregating the results reported by Jasmine as the
+                // tests and suites are executed.
+                jasmine.getEnv().addReporter(
+                    new jasmine.HtmlReporter()
+                );
+ 
+                // Run all the loaded test specs.
+                jasmine.getEnv().execute();
+ 
+            }
+        );
+
+  </script>
+
+</body>
+</html>
