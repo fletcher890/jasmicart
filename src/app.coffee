@@ -30,8 +30,10 @@ define ['libs/jquery/dist/jquery.js', 'src/basket.js', 'src/item.js'], ($, Baske
 
 	$('.addToBasket').bind 'click', -> 
 		item = if $(@).attr('data-pid') is '1' then laptop else mouse
-		basket.add item, parseInt($(@).parent().parent().find('input').val())
-		updateBasket()
+		qty = parseInt($(@).parent().parent().find('input').val())
+		if not isNaN(qty)
+			basket.add item, parseInt($(@).parent().parent().find('input').val())
+			updateBasket()
 		@
 
 	$('body').on 'click', '.removeItem', -> 

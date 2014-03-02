@@ -29,10 +29,13 @@
       }
     };
     $('.addToBasket').bind('click', function() {
-      var item;
+      var item, qty;
       item = $(this).attr('data-pid') === '1' ? laptop : mouse;
-      basket.add(item, parseInt($(this).parent().parent().find('input').val()));
-      updateBasket();
+      qty = parseInt($(this).parent().parent().find('input').val());
+      if (!isNaN(qty)) {
+        basket.add(item, parseInt($(this).parent().parent().find('input').val()));
+        updateBasket();
+      }
       return this;
     });
     $('body').on('click', '.removeItem', function() {
