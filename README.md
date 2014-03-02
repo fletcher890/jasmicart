@@ -7,4 +7,4 @@ This is a simple shopping cart app built with Test-Driven Development being the 
 * Require
 * Testem
 
-Demo: [http://fletcher890.github.io/jasmicart/](http://fletcher890.github.io/jasmicart/ "Jasmicart Demo")	
+Demo: <a href="http://fletcher890.github.io/jasmicart/" target="_blank" title="Jasmicart Demo">http://fletcher890.github.io/jasmicart/</a>
