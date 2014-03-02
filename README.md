@@ -6,3 +6,5 @@ This is a simple shopping cart app built with Test-Driven Development being the 
 * Jasmine 
 * Require
 * Testem
+
+Demo: [http://fletcher890.github.io/jasmicart/](http://fletcher890.github.io/jasmicart/ "Jasmicart Demo")	
