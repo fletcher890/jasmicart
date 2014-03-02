@@ -17,9 +17,9 @@ define ['libs/jquery/dist/jquery.js', 'src/basket.js', 'src/item.js'], ($, Baske
 		if basket.items.length > 0
 
 			if basket.discountAmount > 0
-				$('.basketTable tbody').append("<tr><td colspan='2'><small>Discount</small></td><td>- $#{discountAmount}</td><td colspan='1'></td></tr>");
+				$('.basketTable tbody').append("<tr><td colspan='2'><small>Discount</small></td><td>- $#{discountAmount.toFixed(2)}</td><td colspan='1'></td></tr>");
 
-			$('.basketTable tbody').append("<tr><td colspan='2'><small>Total</small></td><td>$#{total}</td><td colspan='1'></td></tr>");
+			$('.basketTable tbody').append("<tr><td colspan='2'><small>Total</small></td><td>$#{total.toFixed(2)}</td><td colspan='1'></td></tr>");
 			$('#discountWrapper').show()
 
 		else
