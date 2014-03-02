@@ -21,8 +21,10 @@
           $('.basketTable tbody').append("<tr><td colspan='2'><small>Discount</small></td><td>- $" + (discountAmount.toFixed(2)) + "</td><td colspan='1'></td></tr>");
         }
         $('.basketTable tbody').append("<tr><td colspan='2'><small>Total</small></td><td>$" + (total.toFixed(2)) + "</td><td colspan='1'></td></tr>");
-        return $('#discountWrapper').show();
+        $('#discountWrapper').show();
+        return $('.basketTable').show();
       } else {
+        $('.basketTable').hide();
         return $('#discountWrapper').hide();
       }
     };
