@@ -14,7 +14,7 @@
       _ref = basket.items;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
-        $('.basketTable tbody').append("<tr data-item='" + item.item.id + "'><td>" + item.item.title + "</td><td>" + item.quantity + "</td><td>$" + (item.item.price * item.quantity) + "</td><td><a class='removeItem' style='cursor:pointer;'>Remove</a></tr>");
+        $('.basketTable tbody').append("<tr data-item='" + item.item.id + "'><td>" + item.item.title + "</td><td>" + item.quantity + "</td><td>$" + (item.item.price * item.quantity) + "</td><td><i style='cursor:pointer;' class='removeItem glyphicon glyphicon-remove'></i></tr>");
       }
       if (basket.items.length > 0) {
         if (basket.discountAmount > 0) {

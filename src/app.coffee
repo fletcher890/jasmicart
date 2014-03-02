@@ -12,7 +12,7 @@ define ['libs/jquery/dist/jquery.js', 'src/basket.js', 'src/item.js'], ($, Baske
 		discountAmount = basket.getDiscountInMonetryValue()
 		
 		for item in basket.items
-			$('.basketTable tbody').append("<tr data-item='#{item.item.id}'><td>#{item.item.title}</td><td>#{item.quantity}</td><td>$#{item.item.price * item.quantity}</td><td><a class='removeItem' style='cursor:pointer;'>Remove</a></tr>")
+			$('.basketTable tbody').append("<tr data-item='#{item.item.id}'><td>#{item.item.title}</td><td>#{item.quantity}</td><td>$#{item.item.price * item.quantity}</td><td><i style='cursor:pointer;' class='removeItem glyphicon glyphicon-remove'></i></tr>")
 		
 		if basket.items.length > 0
 
