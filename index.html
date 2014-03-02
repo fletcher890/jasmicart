@@ -1,0 +1,103 @@
+<html>
+<head>
+	<title>Jasmicart</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+</head>
+<body>
+
+
+	<div class="container">
+
+		<h1 class="page-header" id="overview">Jasmicart</h1>
+
+		<div class="row">
+		  <div class="col-md-6">
+
+		  	<table class="table">
+		      <thead>
+		        <tr>
+		          <th>#</th>
+		          <th>Product Name</th>
+		          <th>Price</th>
+		          <th>Quantity</th>
+		          <th>&nbsp;</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		        <tr>
+		          <td>1</td>
+		          <td>Laptop</td>
+		          <td>$400</td>
+		          <td>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="1" maxlength="2">
+					</div>
+		          </td>
+		          <td><button type="button" class="addToBasket btn btn-success btn-small" data-pid="1">Buy</button></td>
+		        </tr>
+		       <tr>
+		          <td>2</td>
+		          <td>Mouse</td>
+		          <td>$40</td>
+		          <td>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="1" maxlength="2">
+					</div>
+		          </td>
+		          <td><button type="button" class="addToBasket btn btn-success btn-small" data-pid="2">Buy</button></td>
+		        </tr>
+		      </tbody>
+		    </table>
+
+
+		  </div>
+		  
+		  <div class="col-md-6">
+
+		  	<table class="table basketTable">
+		      <thead>
+		        <tr>
+		          <th>Product Name</th>
+		          <th>Quantity</th>
+		          <th>Price</th>
+		          <th>&nbsp;</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		      </tbody>
+		    </table>
+
+
+		    <div id="discountWrapper" style="display:none;">
+
+				<h6 class="page-header">Discount</h6>
+			    <div class="col-md-6">
+
+				    <div class="input-group">
+				      <input type="text" class="form-control" id="code">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default discountCode" type="button">Go!</button>
+				      </span>
+				    </div><!-- /input-group -->
+
+				</div>
+				<div class="col-md-6">
+
+					<strong>A10</strong><span> - 10% discount</span><br />
+					<strong>A25</strong><span> - 25% discount</span><br />
+					<strong>A50</strong><span> - 50% discount</span>
+
+				</div>
+
+			</div>
+
+
+		  </div>
+
+		</div>
+
+	</div>
+
+<script type="text/javascript" src="libs/require.js" data-main="src/app"></script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 define ['src/basket', 'src/item'], (Basket, Item) ->
 	describe 'Basket', ->
 
-	  basket = laptop = mouse = undefined
+	    basket = laptop = mouse = undefined
 
-	  beforeEach ->
-		basket = new Basket()
-		laptop = new Item(1, 'Laptop', 400)
-		mouse = new Item(2, 'Mouse', 30)
-
-	  afterEach ->
-	  	basket.empty()
+	  	beforeEach ->
+			basket = new Basket()
+			laptop = new Item(1, 'Laptop', 400)
+			mouse = new Item(2, 'Mouse', 30)
+		
+		afterEach ->
+	  		basket.empty()
 		
 		describe 'Adding to basket', ->
 	    
@@ -87,6 +87,64 @@ define ['src/basket', 'src/item'], (Basket, Item) ->
 				expect(basket.distinctCount).toEqual 0
 				expect(basket.totalCount).toEqual 0
 
+		describe 'total price', ->
+
+			it 'calculates the total price', ->
+				basket.add laptop, 2
+				basket.add mouse, 3
+				expect(basket.totalPrice()).toEqual 890
+
+			it 'correctly update the price', ->
+				basket.add laptop, 2
+				basket.add mouse, 3
+				basket.remove laptop, 1
+				expect(basket.totalPrice()).toEqual 490
+
+		describe 'applying discounts', ->
+
+			beforeEach ->
+			    @addMatchers
+			      toBeDiscounted: (original, discount) ->
+			        actual = @actual 
+			        @message = -> "Expected #{actual} to be #{discount} of #{orig}"
+			        actual is (orig * (1 - (discount / 100)))
+		    
+		    it 'should apply discount', ->
+		        basket.add laptop
+		        basket.setDiscount 10
+		        expect(basket.totalPrice()).toEqual 360
+
+		    it 'should persist the discount', ->
+		      	basket.add laptop
+		      	basket.setDiscount 10
+		      	basket.add mouse, 2
+
+
+		    it 'should deal with negative discounts', ->
+		        basket.setDiscount -10
+		        basket.add mouse
+		        expect(basket.totalPrice()).toEqual 27
+
+		    it 'should return the discount amount in monetry value', ->
+		    	basket.add laptop
+		    	basket.setDiscount 10
+		    	expect(basket.getDiscountInMonetryValue()).toEqual 40
+
+		    	basket.add laptop
+		    	expect(basket.getDiscountInMonetryValue()).toEqual 80
+
+		    describe 'coupon codes', ->
+
+		    	it 'gives 10% for valid coupons', ->
+
+		    		b = new Basket()
+		    		b.add laptop
+		    		b.addCoupon('A10')
+		    		expect(b.totalPrice()).toEqual 360
+
+				it 'returns false for invalid cupons', ->
+					expect(basket.addCoupon('A436')).toBeFalsy()
+
 		describe 'finding an item in a basket', ->
 
 			it 'returns true if exists', ->
@@ -122,6 +180,3 @@ define ['src/basket', 'src/item'], (Basket, Item) ->
 
 			it 'returns -1 if item does not exist', ->
 				expect(basket.getItemIndex(laptop)).toEqual -1
-
-
-

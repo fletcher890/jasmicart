@@ -4,12 +4,15 @@
     var basket, laptop, mouse;
     describe('Basket', function() {
       var basket, laptop, mouse;
-      basket = laptop = mouse = void 0;
-      return beforeEach(function() {});
+      return basket = laptop = mouse = void 0;
     });
+    beforeEach(function() {});
     basket = new Basket();
     laptop = new Item(1, 'Laptop', 400);
     mouse = new Item(2, 'Mouse', 30);
+    afterEach(function() {
+      return basket.empty();
+    });
     describe('Adding to basket', function() {
       it('should keep track of distinct items and quantities in basket', function() {
         basket.add(laptop);
@@ -23,7 +26,6 @@
         return expect(basket.distinctCount).toEqual(2);
       });
       return it('should allow more than 1 item to be added', function() {
-        basket.empty();
         basket.add(laptop, 2);
         expect(basket.totalCount).toEqual(2);
         expect(basket.distinctCount).toEqual(1);
@@ -32,7 +34,6 @@
     });
     describe('removing from basket', function() {
       it('should deduct the quantity passed in', function() {
-        basket.empty();
         basket.add(laptop);
         basket.add(laptop);
         basket.remove(laptop, 1);
@@ -41,13 +42,11 @@
         return expect(basket.totalCount).toEqual(1);
       });
       it('should remove item completely if removing the total quantity', function() {
-        basket.empty();
         basket.add(laptop);
         basket.add(laptop);
         return basket.remove(laptop, 2);
       });
       it('should deal with multiple items correctly', function() {
-        basket.empty();
         basket.add(laptop);
         basket.add(laptop);
         basket.add(mouse);
@@ -56,7 +55,6 @@
         return expect(basket.itemExistsInBasket(laptop)).toBeTruthy();
       });
       return it('should not break totalCount with invalid quantities', function() {
-        basket.empty();
         basket.add(laptop);
         basket.add(laptop);
         basket.add(mouse);
@@ -77,6 +75,67 @@
         return expect(basket.totalCount).toEqual(0);
       });
     });
+    describe('total price', function() {
+      it('calculates the total price', function() {
+        basket.add(laptop, 2);
+        basket.add(mouse, 3);
+        return expect(basket.totalPrice()).toEqual(890);
+      });
+      return it('correctly update the price', function() {
+        basket.add(laptop, 2);
+        basket.add(mouse, 3);
+        basket.remove(laptop, 1);
+        return expect(basket.totalPrice()).toEqual(490);
+      });
+    });
+    describe('applying discounts', function() {
+      beforeEach(function() {
+        return this.addMatchers({
+          toBeDiscounted: function(original, discount) {
+            var actual;
+            actual = this.actual;
+            this.message = function() {
+              return "Expected " + actual + " to be " + discount + " of " + orig;
+            };
+            return actual === (orig * (1 - (discount / 100)));
+          }
+        });
+      });
+      it('should apply discount', function() {
+        basket.add(laptop);
+        basket.setDiscount(10);
+        return expect(basket.totalPrice()).toEqual(360);
+      });
+      it('should persist the discount', function() {
+        basket.add(laptop);
+        basket.setDiscount(10);
+        return basket.add(mouse, 2);
+      });
+      it('should deal with negative discounts', function() {
+        basket.setDiscount(-10);
+        basket.add(mouse);
+        return expect(basket.totalPrice()).toEqual(27);
+      });
+      it('should return the discount amount in monetry value', function() {
+        basket.add(laptop);
+        basket.setDiscount(10);
+        expect(basket.getDiscountInMonetryValue()).toEqual(40);
+        basket.add(laptop);
+        return expect(basket.getDiscountInMonetryValue()).toEqual(80);
+      });
+      describe('coupon codes', function() {
+        return it('gives 10% for valid coupons', function() {
+          var b;
+          b = new Basket();
+          b.add(laptop);
+          b.addCoupon('A10');
+          return expect(b.totalPrice()).toEqual(360);
+        });
+      });
+      return it('returns false for invalid cupons', function() {
+        return expect(basket.addCoupon('A436')).toBeFalsy();
+      });
+    });
     describe('finding an item in a basket', function() {
       return it('returns true if exists', function() {
         basket.add(laptop);
@@ -86,14 +145,12 @@
     describe('fetching item from basket', function() {
       it('returns the item object if it exists', function() {
         var result;
-        basket.empty();
         basket.add(laptop);
         result = basket.getItemFromBasket(laptop);
         expect(result.item).toEqual(laptop);
         return expect(result.quantity).toEqual(1);
       });
       return it('returns false if the item is not in basket', function() {
-        basket.empty();
         return expect(basket.getItemFromBasket(laptop)).toBeFalsy();
       });
     });
@@ -104,7 +161,6 @@
         return expect(basket.getQuantity(laptop)).toEqual(2);
       });
       return it('returns 0 if the item is not in the basket', function() {
-        basket.empty();
         return expect(basket.getQuantity(laptop)).toEqual(0);
       });
     });
@@ -114,7 +170,6 @@
         return expect(basket.getItemIndex(laptop)).toEqual(0);
       });
       return it('returns -1 if item does not exist', function() {
-        basket.empty();
         return expect(basket.getItemIndex(laptop)).toEqual(-1);
       });
     });

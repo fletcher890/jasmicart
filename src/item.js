@@ -7,7 +7,51 @@
         this.id = id;
         this.title = title;
         this.price = price;
+        this.protectedFields = ["id"];
       }
+
+      Item.prototype.update = function(opts) {
+        var key, val, _results;
+        _results = [];
+        for (key in opts) {
+          val = opts[key];
+          if ((this[key] != null) && !this.fieldIsProtected(key)) {
+            _results.push(this[key] = val);
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
+
+      Item.prototype.addProtectedField = function(field) {
+        var found, pField, _i, _len, _ref;
+        found = false;
+        _ref = this.protectedFields;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pField = _ref[_i];
+          if (pField === field) {
+            found = true;
+          }
+        }
+        if (found === false) {
+          return this.protectedFields.push(field);
+        }
+      };
+
+      Item.prototype.fieldIsProtected = function(field) {
+        var pField, _i, _len, _ref;
+        _ref = this.protectedFields;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pField = _ref[_i];
+          if (field === pField) {
+            return true;
+          }
+        }
+        return false;
+      };
+
+      Item.prototype.getRatings = function() {};
 
       return Item;
 
